@@ -11,6 +11,12 @@ I2C sensor drivers for [AtomVM](https://github.com/atomvm/AtomVM).
 | `veml6030` | Vishay VEML6030 | Ambient light (lux), white channel |
 | `i2c_scanner` | — | Bus scan utility, prints detected devices |
 
+## Displays
+
+| Module | Device | Description |
+|--------|--------|-------------|
+| `lcd1602` | HD44780 16x2 LCD (PCF8574 backpack) | 2-line character display over I2C |
+
 ## I2C Bus Configuration
 
 All sensors share a single I2C bus:
@@ -21,6 +27,7 @@ All sensors share a single I2C bus:
 
 Default I2C addresses:
 - `0x10` — VEML6030
+- `0x27` — LCD1602 (PCF8574 backpack)
 - `0x58` — SGP30
 - `0x76` — BME680
 
@@ -43,9 +50,17 @@ Veml = veml6030:init(I2C, 16#10),
 {ok, Lux} = veml6030:read_lux(Veml),
 ```
 
-## Adding as a dependency
+### LCD1602 display
 
-In your `rebar.config`:
+The LCD shares the same `i2c` handle as the sensors:
+
+```erlang
+{ok, LCD} = lcd1602:init(I2C),       %% default address 16#27
+lcd1602:clear(LCD),
+lcd1602:write_string(LCD, 0, 0, "Hello World!"),
+lcd1602:write_string(LCD, 1, 0, "Line 2"),
+lcd1602:backlight(LCD, true).
+```
 
 ```erlang
 {deps, [

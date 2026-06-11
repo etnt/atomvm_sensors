@@ -1,5 +1,5 @@
 {application, atomvm_sensors, [
-    {description, "I2C sensor drivers for AtomVM (BME680, SGP30, VEML6030)"},
+    {description, "I2C sensor and display drivers for AtomVM (BME680, SGP30, VEML6030, LCD1602)"},
     {vsn, "0.1.0"},
     {registered, []},
     {applications, [kernel, stdlib]},
